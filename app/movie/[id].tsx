@@ -1,4 +1,3 @@
-// app/movie/[id].js
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -15,6 +14,7 @@ import TopNavigation from "@/components/TopNavigation";
 import { getMovieCredits, getMovieDetails } from "@/services/tmdbApi";
 import { MovieCredits, MovieDetails } from "@/types/Movies";
 import FloatingActionButton from "@/components/FloatingActionButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function MovieDetailsPage() {
   const { id } = useLocalSearchParams();
@@ -87,63 +87,79 @@ export default function MovieDetailsPage() {
   };
 
   if (!movie || !credits) {
-    return <Text>Loading...</Text>;
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
   }
 
   return (
-    <View style={styles.container}>
-      <TopNavigation
-        title={movie.title}
-        onBackPress={() => router.back()}
-        onFavoritePress={handleToggleFavorite}
-        isFavorite={isFavorite}
-        onMenuPress={handleRelatedMovies}
-      />
-      <ScrollView>
-        <Image
-          source={{
-            uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-          }}
-          style={styles.poster}
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <TopNavigation
+          title={movie.title}
+          onBackPress={() => router.back()}
+          onFavoritePress={handleToggleFavorite}
+          isFavorite={isFavorite}
+          onMenuPress={handleRelatedMovies}
         />
-        <View style={styles.detailsContainer}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Text style={styles.overview}>{movie.overview}</Text>
-          <Text style={styles.info}>Release Date: {movie.release_date}</Text>
-          <Text style={styles.info}>Runtime: {movie.runtime} minutes</Text>
-          <Text style={styles.info}>Rating: {movie.vote_average}/10</Text>
-          <Text style={styles.sectionTitle}>Cast</Text>
-          <ScrollView horizontal>
-            {credits.cast.slice(0, 10).map((actor) => (
-              <View key={actor.id} style={styles.actorContainer}>
-                <Image
-                  source={{
-                    uri: `https://image.tmdb.org/t/p/w200${actor.profile_path}`,
-                  }}
-                  style={styles.actorImage}
-                />
-                <Text style={styles.actorName}>{actor.name}</Text>
-                <Text style={styles.characterName}>{actor.character}</Text>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
-      </ScrollView>
-      <FloatingActionButton
-        onPress={() =>
-          handleSetWatchStatus(
-            watchStatus === "Watched" ? "Not Watched" : "Watched"
-          )
-        }
-        icon={watchStatus === "Watched" ? "eye" : "eye-off"}
-      />
-    </View>
+        <ScrollView>
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+            }}
+            style={styles.poster}
+          />
+          <View style={styles.detailsContainer}>
+            <Text style={styles.title}>{movie.title}</Text>
+            <Text style={styles.overview}>{movie.overview}</Text>
+            <Text style={styles.info}>Release Date: {movie.release_date}</Text>
+            <Text style={styles.info}>Runtime: {movie.runtime} minutes</Text>
+            <Text style={styles.info}>Rating: {movie.vote_average}/10</Text>
+            <Text style={styles.sectionTitle}>Cast</Text>
+            <ScrollView horizontal>
+              {credits.cast.slice(0, 10).map((actor) => (
+                <View key={actor.id} style={styles.actorContainer}>
+                  <Image
+                    source={{
+                      uri: `https://image.tmdb.org/t/p/w200${actor.profile_path}`,
+                    }}
+                    style={styles.actorImage}
+                  />
+                  <Text style={styles.actorName}>{actor.name}</Text>
+                  <Text style={styles.characterName}>{actor.character}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+        </ScrollView>
+        <FloatingActionButton
+          onPress={() =>
+            handleSetWatchStatus(
+              watchStatus === "Watched" ? "Not Watched" : "Watched"
+            )
+          }
+          icon={watchStatus === "Watched" ? "eye" : "eye-off"}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+  },
   container: {
     flex: 1,
+    backgroundColor: "#f0f0f0",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#f0f0f0",
   },
   poster: {
