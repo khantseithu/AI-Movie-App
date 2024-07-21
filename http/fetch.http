@@ -1,0 +1,4 @@
+
+@apikey = 0d3b1d5261bd809ddcd065dbc8fff89d
+
+GET https://api.themoviedb.org/3/movie/popular?api_key={{apikey}}&language=en-US&page=1
