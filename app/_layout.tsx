@@ -26,7 +26,7 @@ export default function AppLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Popular Movies",
         }}
       />
       <Tabs.Screen

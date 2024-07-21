@@ -12,13 +12,13 @@ export default function Home() {
 
   const fetchMovies = async () => {
     const popularMovies = await getPopularMovies();
-    console.log(popularMovies);
+
     setMovies(popularMovies);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Popular Movies</Text>
+      {/* <Text style={styles.title}>Popular Movies</Text> */}
       {/* <AIRecommendation /> */}
       <FlatList
         data={movies}
