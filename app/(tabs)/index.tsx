@@ -1,5 +1,7 @@
 import MovieCard from "@/components/MovieCard";
 import { getPopularMovies } from "@/services/tmdbApi";
+import { Movie } from "@/types/Movies";
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
@@ -16,13 +18,19 @@ export default function Home() {
     setMovies(popularMovies);
   };
 
+  const handleOnPress = (movie: Movie) => {
+    return router.push(`/movie/${movie.id}`);
+  };
+
   return (
     <View style={styles.container}>
       {/* <Text style={styles.title}>Popular Movies</Text> */}
       {/* <AIRecommendation /> */}
       <FlatList
         data={movies}
-        renderItem={({ item }) => <MovieCard movie={item} />}
+        renderItem={({ item }) => (
+          <MovieCard movie={item} onPress={() => handleOnPress(item)} />
+        )}
         keyExtractor={(item: any) => item.id.toString()}
         numColumns={2}
       />

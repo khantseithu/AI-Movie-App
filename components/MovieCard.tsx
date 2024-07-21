@@ -1,9 +1,16 @@
+import { Movie } from "@/types/Movies";
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-export default function MovieCard({ movie }: { movie: any }) {
+export default function MovieCard({
+  movie,
+  onPress,
+}: {
+  movie: any;
+  onPress: () => void;
+}) {
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
       <Image
         source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }}
         style={styles.poster}

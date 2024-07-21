@@ -3,6 +3,8 @@ import MovieCard from "@/components/MovieCard";
 import { searchMovies } from "@/services/tmdbApi";
 import { Movie } from "@/types/Movies";
 import React, { useState } from "react";
+import { router } from "expo-router";
+
 import { View, TextInput, FlatList, StyleSheet } from "react-native";
 
 export default function SearchPage() {
@@ -16,6 +18,10 @@ export default function SearchPage() {
     }
   };
 
+  const handleOnPress = (movie: Movie) => {
+    // navigate to movie details page
+    return router.push(`/movie/${movie.id}`);
+  };
   return (
     <View style={styles.container}>
       <TextInput
@@ -27,7 +33,9 @@ export default function SearchPage() {
       />
       <FlatList
         data={results}
-        renderItem={({ item }) => <MovieCard movie={item} />}
+        renderItem={({ item }) => (
+          <MovieCard movie={item} onPress={() => handleOnPress(item)} />
+        )}
         keyExtractor={(item: Movie) => item.id.toString()}
         numColumns={2}
       />
