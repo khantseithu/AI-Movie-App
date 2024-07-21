@@ -6,9 +6,9 @@ import { Ionicons } from "@expo/vector-icons";
 interface TopNavigationProps {
   title: string;
   onBackPress: () => void;
-  onFavoritePress: () => void;
-  isFavorite: boolean;
-  onMenuPress: () => void;
+  onFavoritePress?: () => void;
+  isFavorite?: boolean;
+  onMenuPress?: () => void;
 }
 
 export default function TopNavigation({
