@@ -1,5 +1,6 @@
 import { FILEURI } from "@/constants/URI";
 import { useSession } from "@/context/ctx";
+import { getProfile } from "@/services/pocketbase";
 import { UserInfo } from "@/types/Profile";
 import React, { useEffect, useState } from "react";
 import {
@@ -22,11 +23,17 @@ export default function UserProfilePage() {
   const { session, signOut } = useSession();
 
   useEffect(() => {
-    if (!session) {
-      return;
-    }
-    const userInfo = JSON.parse(session);
-    setUserInfo(userInfo?.record);
+    const fetchUserProfile = async () => {
+      if (!session) {
+        return;
+      }
+      const userInfo = JSON.parse(session);
+      const userProfile = await getProfile(userInfo?.record?.id);
+      console.log("userProfile", userProfile);
+      setUserInfo(userProfile as UserInfo);
+    };
+
+    fetchUserProfile();
   }, [session]);
 
   return (

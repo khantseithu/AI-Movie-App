@@ -1,2 +1,1 @@
-export const FILEURI =
-  "https://cautious-happiness-4xwx74rg4gh7gwj-8090.app.github.dev/api/files";
+export const FILEURI = "http://167.172.72.120/api/files";

@@ -1,8 +1,6 @@
 import PocketBase from "pocketbase";
 
-export const pb = new PocketBase(
-  "https://cautious-happiness-4xwx74rg4gh7gwj-8090.app.github.dev/"
-);
+export const pb = new PocketBase("http://167.172.72.120/");
 
 const data = {
   username: "test_username",
@@ -28,11 +26,20 @@ export async function createUser(data: User) {
   return user;
 }
 
-// const authData = await pb.collection('users').authWithPassword('YOUR_USERNAME_OR_EMAIL', '1234567890');
-
 export async function signInUser(data: User) {
   const user = await pb
     .collection("users")
     .authWithPassword(data.email, data.password);
+  return user;
+}
+
+// const record = await pb.collection('users').getOne('RECORD_ID', {
+//   expand: 'relField1,relField2.subRelField',
+// });
+// get profile
+
+export async function getProfile(recordId: string) {
+  const user = await pb.collection("users").getOne(recordId);
+  console.log(user);
   return user;
 }

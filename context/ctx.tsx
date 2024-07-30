@@ -67,10 +67,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
             password,
             passwordConfirm,
           });
-          setSession(JSON.stringify(user));
-          if (pb.authStore.isValid) {
-            router.push("/");
-          }
+          // setSession(JSON.stringify(user));
+          router.push("/sign-in");
         },
         signOut: () => {
           setSession(null);
