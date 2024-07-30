@@ -1,16 +1,28 @@
 import { useStorageState } from "@/hooks/useStorageState";
-import { pb, signInUser } from "@/services/pocketbase";
+import { createUser, pb, signInUser } from "@/services/pocketbase";
 import { useRouter } from "expo-router";
 import { useContext, createContext, type PropsWithChildren } from "react";
 
 const AuthContext = createContext<{
   signIn: (email: string, password: string) => void;
   signOut: () => void;
+  signUp: (
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirm: string
+  ) => void;
   session?: string | null;
   isLoading: boolean;
 }>({
   signIn: (email: string, password: string) => null,
   signOut: () => null,
+  signUp: (
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirm: string
+  ) => null,
   session: null,
   isLoading: false,
 });
@@ -38,6 +50,23 @@ export function SessionProvider({ children }: PropsWithChildren) {
           // Call the auth service to sign in the user
           // Set the session in the state
           const user = await signInUser({ email, password });
+          setSession(JSON.stringify(user));
+          if (pb.authStore.isValid) {
+            router.push("/");
+          }
+        },
+        signUp: async (
+          name: string,
+          email: string,
+          password: string,
+          passwordConfirm: string
+        ) => {
+          const user = await createUser({
+            name,
+            email,
+            password,
+            passwordConfirm,
+          });
           setSession(JSON.stringify(user));
           if (pb.authStore.isValid) {
             router.push("/");

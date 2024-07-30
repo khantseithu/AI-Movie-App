@@ -1,4 +1,5 @@
 // RegisterScreen.js
+import { useSession } from "@/context/ctx";
 import { createUser } from "@/services/pocketbase";
 import React, { useState } from "react";
 import { View, TextInput, Button, Text, StyleSheet } from "react-native";
@@ -9,12 +10,16 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
+  const { signUp } = useSession();
 
   const handleRegister = async () => {
     try {
-      const user = await createUser({ name, email, password, passwordConfirm });
-      console.log(user);
-      console.log("User created successfully");
+      setError("");
+      if (password !== passwordConfirm) {
+        setError("Passwords do not match");
+        return;
+      }
+      await signUp(name, email, password, passwordConfirm);
     } catch (err: any) {
       setError(err.message);
     }

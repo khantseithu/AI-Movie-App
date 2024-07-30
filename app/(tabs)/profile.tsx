@@ -1,19 +1,60 @@
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { FILEURI } from "@/constants/URI";
+import { useSession } from "@/context/ctx";
+import { UserInfo } from "@/types/Profile";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Touchable,
+  TouchableOpacity,
+} from "react-native";
 
 export default function UserProfilePage() {
-  // This is a placeholder. In a real app, you'd fetch user data from an API or local storage
+  const [userInfo, setUserInfo] = useState<UserInfo>();
   const user = {
     name: "John Doe",
     email: "john@example.com",
     avatar: "https://via.placeholder.com/150",
   };
 
+  const { session, signOut } = useSession();
+
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    const userInfo = JSON.parse(session);
+    setUserInfo(userInfo?.record);
+  }, [session]);
+
   return (
     <View style={styles.container}>
-      <Image source={{ uri: user.avatar }} style={styles.avatar} />
-      <Text style={styles.name}>{user.name}</Text>
-      <Text style={styles.email}>{user.email}</Text>
+      {/* http://127.0.0.1:8090/api/files/COLLECTION_ID_OR_NAME/RECORD_ID/FILENAME */}
+      <Image
+        source={{
+          uri:
+            `${FILEURI}/${userInfo?.collectionId}/${userInfo?.id}/${userInfo?.avatar}` ||
+            user.avatar,
+        }}
+        style={styles.avatar}
+      />
+      <Text style={styles.name}>{userInfo?.name}</Text>
+      <Text style={styles.email}>{userInfo?.email}</Text>
+
+      {/* SIGN OUT */}
+      <TouchableOpacity
+        onPress={() => signOut()}
+        style={{
+          backgroundColor: "#f0f0f0",
+          padding: 10,
+          borderRadius: 5,
+          marginTop: 20,
+        }}
+      >
+        <Text>Sign Out</Text>
+      </TouchableOpacity>
     </View>
   );
 }
