@@ -17,7 +17,7 @@ export default function MovieCard({
       />
       <View style={styles.info}>
         <Text style={styles.title} numberOfLines={2}>
-          {movie.title}
+          {movie.title || movie.name}
         </Text>
         <Text style={styles.rating}>Rating: {movie.vote_average}</Text>
       </View>

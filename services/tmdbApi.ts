@@ -3,7 +3,6 @@ import axios from "axios";
 const BASE_URL = "https://api.themoviedb.org/3";
 
 export const getPopularMovies = async (page: number = 1) => {
-  console.log("page", page);
   try {
     const response = await axios.get(`${BASE_URL}/movie/popular`, {
       params: {
@@ -71,6 +70,21 @@ export const getRelatedMovies = async (movieId: any) => {
     return response.data.results;
   } catch (error) {
     console.error("Error fetching related movies:", error);
+    return [];
+  }
+};
+
+export const getTrendingMovies = async (page: number) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/trending/movie/day`, {
+      params: {
+        api_key: process.env.EXPO_PUBLIC_TMDB_API_KEY,
+        page,
+      },
+    });
+    return response.data.results;
+  } catch (error) {
+    console.error("Error fetching trending movies:", error);
     return [];
   }
 };

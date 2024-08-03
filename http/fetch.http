@@ -1,10 +1,14 @@
 
 @apikey = 0d3b1d5261bd809ddcd065dbc8fff89d
 
-GET https://api.themoviedb.org/3/movie/popular?api_key={{apikey}}&language=en-US&page=2;
+# GET https://api.themoviedb.org/3/movie/popular?api_key={{apikey}}&language=en-US&page=2;
 
 # movie details
 # GET https://api.themoviedb.org/3/movie/550?api_key={{apikey}}
 
 # movie credits
 # GET https://api.themoviedb.org/3/movie/550/credits?api_key={{apikey}}
+
+@time_window = 1
+# trending movies
+GET https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key={{apikey}}
