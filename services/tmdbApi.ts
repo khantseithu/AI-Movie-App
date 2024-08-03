@@ -2,17 +2,19 @@ import axios from "axios";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
-export const getPopularMovies = async () => {
+export const getPopularMovies = async (page: number = 1) => {
+  console.log("page", page);
   try {
     const response = await axios.get(`${BASE_URL}/movie/popular`, {
       params: {
         api_key: process.env.EXPO_PUBLIC_TMDB_API_KEY,
+        page,
       },
     });
     return response.data.results;
   } catch (error) {
     console.error("Error fetching popular movies:", error);
-    return [];
+    return { results: [], total_pages: 0 };
   }
 };
 

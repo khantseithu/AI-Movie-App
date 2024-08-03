@@ -28,9 +28,9 @@ export default function UserProfilePage() {
         return;
       }
       const userInfo = JSON.parse(session);
-      const userProfile = await getProfile(userInfo?.record?.id);
-      console.log("userProfile", userProfile);
-      setUserInfo(userProfile as UserInfo);
+      // const userProfile = await getProfile(userInfo?.record?.id);
+      // console.log("userProfile", userProfile);
+      setUserInfo(userInfo?.record);
     };
 
     fetchUserProfile();
